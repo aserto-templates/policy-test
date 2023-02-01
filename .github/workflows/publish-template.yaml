@@ -31,6 +31,7 @@ jobs:
         flavor: |
           latest=auto
         tags: |
+          type=semver,pattern={{version}}
           type=semver,pattern={{major}}.{{minor}}
           type=semver,pattern={{major}}
           type=sha
@@ -55,8 +56,6 @@ jobs:
     - name: Oras Push
       id: "oras-push"
       env:
-        REPO:   ${{ steps.template-config.outputs.repo }}
-        SERVER: ${{ steps.template-config.outputs.server }}
         TARGET: ${{ steps.template-config.outputs.server }}/${{ steps.template-config.outputs.repo }}:${{ steps.meta.outputs.version }}
       run: |
         oras push "${TARGET}" \
