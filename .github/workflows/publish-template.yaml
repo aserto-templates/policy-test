@@ -39,8 +39,9 @@ jobs:
     - name: Dump Tags
       id: dump-tags
       run: |
-        echo "tags: ${{ steps.meta.outputs.tags }}"
-        echo "labels: ${{ steps.meta.outputs.labels }}""
+        while read -r tag; do
+          echo "tag: ${tag}"
+        done < <(echo "${{ steps.meta.outputs.tags }}")
 
     - name: List Sver Tags
       uses: aserto-dev/sver-action@v0.0.14
