@@ -36,22 +36,6 @@ jobs:
           type=semver,pattern={{major}}
           type=sha
 
-    - name: Dump Tags
-      id: dump-tags
-      run: |
-        while read -r tag; do
-          echo "tag: ${tag}"
-        done < <(echo "${{ steps.meta.outputs.tags }}")
-
-    - name: List Sver Tags
-      uses: aserto-dev/sver-action@v0.0.14
-      id: "sver"
-      with:
-        docker_image: ${{ steps.template-config.outputs.repo }}
-        docker_registry: ${{ steps.template-config.outputs.server }}
-        docker_username: ${{ steps.template-config.outputs.username }}
-        docker_password: ${{ secrets.ASERTO_TEMPLATE_PUBLISH_KEY }}
-
     - name: Oras Login
       id: "oras-login"
       env:
@@ -79,7 +63,7 @@ jobs:
           oras push "${SERVER}/${REPO}:${tag}" \
           --annotation-file ./annotations.json \
           --artifact-type application/vnd.oci.image.layer.v1.tar+gzip ./bundle.tar.gz
-        done < <(echo "${{ steps.sver.outputs.version }}")
+        done < <(echo "${{ steps.meta.outputs.tags }}")
 
     - name: Oras Logout
       id: "oras-logout"
