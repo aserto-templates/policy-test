@@ -27,7 +27,7 @@ jobs:
       uses: docker/metadata-action@v4
       with:
         images: |
-          ${{ steps.template-config.outputs.server }}/${{ steps.template-config.outputs.repo }}
+          ${{ steps.policy-config.outputs.server }}/${{ steps.policy-config.outputs.repo }}
         flavor: |
           latest=auto
         tags: |
